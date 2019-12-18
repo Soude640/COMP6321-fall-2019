@@ -1,0 +1,809 @@
+<!DOCTYPE html><html><head>
+      <title>COMP 6321 &#x2013; Numpy Review</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css">
+      
+      
+
+      
+      
+      
+      
+      
+      
+
+      <style>
+      @import url('https://rsms.me/inter/inter.css');
+/**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+.markdown-preview.markdown-preview {
+  font-family: 'Inter';
+  font-size: 14px;
+  /*ul {
+    margin-top: -0.8em;
+    margin-bottom: 0.2em;
+  }
+
+  ol {
+    margin-top: -0.8em;
+    margin-bottom: 0.2em;
+  }*/
+}
+.markdown-preview.markdown-preview .center {
+  display: block;
+  margin: 0 auto;
+}
+.markdown-preview.markdown-preview blockquote {
+  color: #888;
+  background: none;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  border-radius: 8px;
+}
+.markdown-preview.markdown-preview blockquote strong {
+  color: #666;
+}
+@media screen and (min-width: 790px) {
+  html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview {
+    padding: 2em calc(50% - 395px + 2em);
+  }
+}
+@media screen and (max-width: 790px) {
+  html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview {
+    padding: 2em 2em;
+  }
+}
+.preview-container .mume[for="preview"] {
+  padding: 2em calc(50% - 395px + 2em) !important;
+}
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="numpy-review">Numpy Review</h1>
+
+<p>The <a href="https://www.numpy.org/">Numpy</a> package provides <em>ndarray</em> objects (vectors, matrices, tensors) along with fast numerical operations (sum, mul, max, etc). <strong>Getting good at Numpy is worth your time.</strong></p>
+<p>This document contains short <a href="https://www.numpy.org/">Numpy</a> code examples. It was written specifically for COMP 6321. You need to understand these examples to have reasonable competence at numerical computing in Python. All machine learning packages (e.g., scikit-learn, TensorFlow, PyTorch, JAX) either rely on Numpy or offer their own Numpy-like functionality.</p>
+<h2 class="mume-header" id="importing-numpy">Importing Numpy</h2>
+
+<p>If you need to use Numpy, use the following line:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+</pre><p>A nice feature of Anaconda Python is that its provides a very fast version of Numpy. This version relies on the <a href="https://software.intel.com/en-us/mkl">Intel Math Kernel (MKL) library</a> for its core numerical routines. You can confirm Numpy uses MKL as follows:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>show_config<span class="token punctuation">(</span><span class="token punctuation">)</span>            <span class="token comment"># If show_config() mentions &quot;MKL&quot; then you&apos;ve got the fast version of Numpy</span>
+mkl_info<span class="token punctuation">:</span>
+    libraries <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">&apos;mkl_rt&apos;</span><span class="token punctuation">]</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+</pre><h2 class="mume-header" id="ndarray-objects">Ndarray objects</h2>
+
+<p>Numpy provides the <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html">ndarray</a> type, which stands for &quot;N-dimensional array.&quot; The simplest is one-dimensional:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span>        <span class="token comment"># Create a list object with three slots, each refering to an integer object</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>y<span class="token punctuation">)</span>      <span class="token comment"># Create an ndarray object, initializing each x[i] by copying the value from y[i]</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>We can check the type of this new object:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token builtin">type</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>              <span class="token comment"># Variable &apos;x&apos; refers to an object of type &apos;ndarray&apos; defined by the numpy module</span>
+<span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token string">&apos;numpy.ndarray&apos;</span><span class="token operator">&gt;</span>
+</pre><p>An ndarray object has attributes that tell us about its dimensions and its data type:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span>ndim       <span class="token comment"># The &apos;ndim&apos; (number of dimensions) on this particular ndarray object is 1</span>
+<span class="token number">1</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token builtin">len</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>       <span class="token comment"># The length of the first dimension (the only dimension) is 3</span>
+<span class="token number">3</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span>shape      <span class="token comment"># The &apos;shape&apos; tuple contains the length of each dimension (all &apos;ndim&apos; of them)</span>
+<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span>dtype      <span class="token comment"># The &apos;dtype&apos; (data type) on this particular ndarray object is 32-bit integer</span>
+dtype<span class="token punctuation">(</span><span class="token string">&apos;int32&apos;</span><span class="token punctuation">)</span>
+</pre><p>The array data is now separate from the list we initialize it with:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span>         <span class="token comment"># Replace the value in slot x[0] with the value of an integer object</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">)</span>     <span class="token comment"># The data inside the ndarray referred to by &apos;x&apos; has changed</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y                 <span class="token comment"># The original list that we used to initialize &apos;x&apos; has not changed</span>
+<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span>
+</pre><p>You can create a two-dimensional (2D) ndarray object from nested lists:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>   <span class="token comment"># Create a nested list (3 list objects, 6 integers) and</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x                                      <span class="token comment"># use it to initialize a new ndarray object</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span>ndim          <span class="token comment"># The &apos;ndim&apos; (number of dimensions) of this ndarray object is 2</span>
+<span class="token number">2</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span>shape         <span class="token comment"># The &apos;shape&apos; is that of a 2x3 matrix (2 rows, 3 columns)</span>
+<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+</pre><p><strong>Each dimension is called an <em>axis</em></strong> because we can do operations on separate axes:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span>         <span class="token comment"># Sum all 6 values in the 2x3 ndarray and return an object</span>
+<span class="token number">21</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span>axis<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span>   <span class="token comment"># Sum across the first axis (outer-most axis), giving new ndarray [2+5, 4+3, 6+1]</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span>axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>   <span class="token comment"># Sum across the second axis (inner axis), giving new ndarray [2+4+6, 5+3+1]</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">12</span><span class="token punctuation">,</span>  <span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>You can also get a string representation of an ndarray object:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">print</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">2</span> <span class="token number">4</span> <span class="token number">6</span><span class="token punctuation">]</span>
+ <span class="token punctuation">[</span><span class="token number">5</span> <span class="token number">3</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token string">&quot;variable x is %s&quot;</span> <span class="token operator">%</span> x         <span class="token comment"># The % string formatting operator asks &apos;x&apos; for a string representation</span>
+<span class="token string">&apos;variable x is [[2 4 6]\n [5 3 1]]&apos;</span>
+</pre><p>Ndarrays are <em>mutable</em>, which means you can modify the data inside arrays without creating a new object or a new copy of the data. This is true even if you use Python operators like <code>+=</code> and <code>-=</code>:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> x
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">+=</span> <span class="token number">5</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>This is unlike Python integer or float objects, which are <em>immutable</em> and work differently:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> x
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">+=</span> <span class="token number">5</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y
+<span class="token number">0</span>
+</pre><h2 class="mume-header" id="ndarray-versus-list-representations">Ndarray versus list representations</h2>
+
+<p>The main reason you should use arrays is because they make numerical computing much easier than with Python lists. A second reason is that arrays can be faster and more memory efficient than lists. Why is that?</p>
+<p>Consider again the code:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span>        <span class="token comment"># Create a list object with three slots, each refering to an integer object</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>y<span class="token punctuation">)</span>      <span class="token comment"># Create an ndarray object, initializing each x[i] by copying the value from y[i]</span>
+</pre><p>Here is a diagram of the memory allocations that Python makes when you run the above code:</p>
+<center>
+<img src="img/fig-list-vs-ndarray.png" style="width:391px;height:200px;display:block;padding-bottom:5px;">
+</center>
+<p>Even the above diagram is heavily simplified, but it gives the right idea. Arrows show references to chunks of memory. Compare the list versus the array representations above.</p>
+<ul>
+<li><strong>List representation.</strong> Variable <em>y</em> refers to a chunk of memory for a list object. The list object refers to a chunk of memory big enough to hold 3 reference slots. (This chunk would grow if we added items to the list.) Each slot refers to an object. Here, each is a separate integer object holding a distinct value.</li>
+<li><strong>Array representation.</strong> Variable <em>x</em> refers to a chunk of memory for an ndarray object. The ndarray object refers to a chunk of memory big enough to hold 3 consecutive data values, here 32-bit integers (int32).</li>
+</ul>
+<p>The biggest difference is that <em>arrays assume that data is all of the same type.</em> Lists and tuples do not make this assumption, so they cannot be as efficient.</p>
+<p>To see what this difference means, imagine the same example but with more data:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+</pre><p>In terms of memory usage, the list would use at least <strong>32064 bytes</strong> (96x1 list object + 8x1000 slots + 24x1000 int objects) and the array would use <strong>4096 bytes</strong> (96x1 ndarray object + 4x1000 int32 values). That&apos;s nearly an 8x difference in memory usage. Contiguous data also allows faster computation via <a href="https://en.wikipedia.org/wiki/Streaming_SIMD_Extensions">SIMD instructions</a>.</p>
+<h2 class="mume-header" id="creating-ndarrays">Creating ndarrays</h2>
+
+<p>You should know the <a href="https://www.numpy.org/devdocs/reference/routines.array-creation.html">standard array creation functions</a>:</p>
+<ul>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.array.html">array</a></strong> creates an ndarray with values initialized from a list (or a list of lists, etc)</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.zeros.html">zeros</a></strong> creates an ndarray with values initialized to <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.ones.html">ones</a></strong> creates an ndarray with values initialized to <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.full.html">full</a></strong> creates an ndarray with values initialized to a value that you specify</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.empty.html">empty</a></strong> creates an ndarray with values left uninitialized (risky!)</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.eye.html">eye</a></strong> creates an ndarray with values initialized to be the identity matrix</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.arange.html">arange</a></strong> creates an ndarray with values initialized to <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo separator="true">,</mo><mo>&#x2026;</mo></mrow><annotation encoding="application/x-tex">0, 1, 2, \ldots</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">&#x2026;</span></span></span></span>, similar to Python&apos;s  <em>range</em> function</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.linspace.html">linspace</a></strong> creates an ndarray with float values equally spaced within a range (useful for plotting)</li>
+</ul>
+<p>Some examples:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>             <span class="token comment"># Create an ndarray object with shape (3,) and fill it with 0.0</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>              <span class="token comment"># Create an ndarray object with shape (3,) and fill it with 1.0</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>full<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span>      <span class="token comment"># Create an ndarray object with shape (2, 3) and fill it with integer 5</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>eye<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>               <span class="token comment"># Create an ndarray object with shape (3, 3) and fill the diagonal with 1.0</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>            <span class="token comment"># Create an ndarray object with shape (3,) and fill it with ascending integers</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>linspace<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span>   <span class="token comment"># Create an ndarray object with shape (11,) and fill it with values that</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span> <span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token number">0.2</span><span class="token punctuation">,</span> <span class="token number">0.3</span><span class="token punctuation">,</span> <span class="token number">0.4</span><span class="token punctuation">,</span> <span class="token number">0.5</span><span class="token punctuation">]</span><span class="token punctuation">)</span>   <span class="token comment"># interpolate from 0.0 to 0.5 inclusive</span>
+</pre><h2 class="mume-header" id="data-types">Data types</h2>
+
+<p>Each ndarray object has a specific <a href="https://www.numpy.org/devdocs/user/basics.types.html">dtype</a> (data type). For machine learning, you should know the basic types:</p>
+<ul>
+<li><strong>np.bool_</strong> is an 8-bit boolean (False or True); the extra <code>_</code> is to avoid name clash with the Python <code>bool</code>.</li>
+<li><strong>np.int8</strong> is an 8-bit signed integer (-127..128)</li>
+<li><strong>np.int16</strong> is a 16-bit signed integer</li>
+<li><strong>np.int32</strong> is a 32-bit signed integer</li>
+<li><strong>np.int64</strong> is a 64-bit signed integer</li>
+<li><strong>np.uint8</strong> is an 8-bit unsigned integer (0..255)</li>
+<li><strong>np.uint16</strong> is a 16-bit unsigned integer</li>
+<li><strong>np.uint32</strong> is a 32-bit unsigned integer</li>
+<li><strong>np.uint64</strong> is a 64-bit unsigned integer</li>
+<li><strong>np.float16</strong> is a 16-bit IEEE floating point number (&quot;half precision&quot;)</li>
+<li><strong>np.float32</strong> is a 32-bit IEEE floating point number</li>
+<li><strong>np.float64</strong> is a 64-bit IEEE floating point number (&quot;double precision&quot;)</li>
+</ul>
+<p>You should of course know what all these data types are in a general computing sense (signed vs unsigned, int vs float, 32 vs 64 bit) and be able to choose an appropriate data type in a given situation.</p>
+<p>Numpy tries to guess which dtype you want, based on the values you use to initialize it:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>      <span class="token comment"># Create an int32 ndarray object, since all values are integers</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">)</span>     <span class="token comment"># Create a float64 ndarray object, since at least one value is float</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>You can always override the default dtype:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">)</span>                 <span class="token comment"># float64 by default</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>np<span class="token punctuation">.</span>float32<span class="token punctuation">)</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">)</span>  <span class="token comment"># float32 by request</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>np<span class="token punctuation">.</span><span class="token builtin">bool</span><span class="token punctuation">)</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token boolean">True</span><span class="token punctuation">]</span><span class="token punctuation">)</span>           <span class="token comment"># bool by request, where 1 is True and 0 is False</span>
+</pre><p>Numpy also tries to guess the desired dtype when doing a numerical operation:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment"># Create an int32 ndarray</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">+</span> <span class="token number">0.5</span>                  <span class="token comment"># Create a new ndarray with entries x[i] + 0.5 (int32 + float results in float)</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1.5</span><span class="token punctuation">,</span> <span class="token number">2.5</span><span class="token punctuation">,</span> <span class="token number">3.5</span><span class="token punctuation">]</span><span class="token punctuation">)</span>       <span class="token comment"># Numpy guesses that we want dtype float64 for this new ndarray</span>
+</pre><h2 class="mume-header" id="basic-indexing-and-slicing">Basic indexing and slicing</h2>
+
+<p>Numpy <a href="https://www.numpy.org/devdocs/user/quickstart.html#indexing-slicing-and-iterating">indexing and slicing</a> both work similarly to lists:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment"># Create an int32 ndarray, initialized from three integer objects</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>                     <span class="token comment"># Index [0] has the int32 value 2</span>
+<span class="token number">2</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span>                    <span class="token comment"># Index [len(x)-1] has the int32 value 6</span>
+<span class="token number">6</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span>                    <span class="token comment"># Slice [1:len(x)] creates a new ndarray array with a subset of the data</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>You can assign an index or a slice to be a constant value:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>You can also assign a slice to be an ndarray of values. which <em>copies</em> data from one ndarray into another:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span> <span class="token operator">=</span> y<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span>            <span class="token comment"># Copy the first two slots of &apos;y&apos; into to the last two slots of &apos;x&apos;</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>Assigning to a slice is different from assigning a variable:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">7</span>       <span class="token comment"># Create an integer object with value 7 and copy its value into ever ndarray slot</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> <span class="token number">7</span>          <span class="token comment"># Create an integer object with value 7 and make the variable &apos;x&apos; refer to it</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x              <span class="token comment"># (We no longer refer to the ndarray object at all)</span>
+<span class="token number">7</span>
+</pre><p>You can do multi-dimensional indexing:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span>   <span class="token comment"># Create a 2x3 int32 ndarray, initialized from a nested list</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>               <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">]</span>          <span class="token comment"># Index [0,0] has int32 value 2 (first row, first column)</span>
+<span class="token number">2</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span>         <span class="token comment"># Index [0,m-1] has int32 value 6, where m is the number of columns</span>
+<span class="token number">6</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">]</span>         <span class="token comment"># Index [n-1,0] has int32 value 5, where n is the number of rows</span>
+<span class="token number">5</span>
+</pre><p>You can also do multi-dimensional slicing:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">,</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span>    <span class="token comment"># Create a new ndarray object by slicing subarray [1:n,0:2] from &apos;x&apos;</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>     <span class="token comment"># Variable &apos;y&apos; now refers to a 1x2 ndarray object with a &quot;view&quot; into part of &apos;x&apos;</span>
+</pre><p>It is important to understand exactly what happened above. The diagram below shows how the two ndarray objects refer to the same chunk of data:</p>
+<center>
+<img src="img/fig-ndarray-data-view.png" style="width:338px;height:200px;display:block;padding-bottom:6px;">
+</center>
+<p>The ndarray object referred to by <em>y</em> <strong>is sharing the same data</strong> as the ndarray object referred to by <em>x</em>. The terminology for this is that &quot;<em>y</em> is a <em>view</em> into <em>x</em>.&quot; This is easy to demonstrate:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">7</span>        <span class="token comment"># Replace the value at y[0,1] with 7 (first row, second column)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>    <span class="token comment"># The data at x[1,1] has changed from 3 to 7</span>
+</pre><p>If you omit a particular dimension when indexing, Numpy returns a full slice (<code>:</code>) of that dimension:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>              <span class="token comment"># Same as x[1,:], creates an ndarray object with a view of the entire second row</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><h2 class="mume-header" id="looping">Looping</h2>
+
+<p>You can iterate over the outer-most dimension of an ndarray. For a matrix this means you loop over the rows:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>               <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">for</span> xi <span class="token keyword">in</span> x<span class="token punctuation">:</span>        <span class="token comment"># for i in range(len(x)):     &lt;-- Same as doing this</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>     <span class="token keyword">print</span><span class="token punctuation">(</span>xi<span class="token punctuation">)</span>       <span class="token comment">#     print(x[i])             &lt;--</span>
+<span class="token punctuation">[</span><span class="token number">2</span> <span class="token number">4</span> <span class="token number">6</span><span class="token punctuation">]</span>
+<span class="token punctuation">[</span><span class="token number">5</span> <span class="token number">3</span> <span class="token number">1</span><span class="token punctuation">]</span>
+</pre><p>On the first iteration, variable <em>xi</em> refers to a new ndarray object that has a &quot;view&quot; into the first row of data:</p>
+<center>
+<img src="img/fig-ndarray-iteration-1.png" style="width:338px;height:200px;display:block;padding-bottom:6px;">
+</center>
+<p>On the second iteration, <em>xi</em> refers to a new, different ndarray object, this time with a view into the second row:</p>
+<center>
+<img src="img/fig-ndarray-iteration-2.png" style="width:338px;height:200px;display:block;padding-bottom:6px;">
+</center>
+<p>Notice that each row is given as a 1D array, not as a 1x3 matrix. This design allows for nested loops:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">for</span> xi <span class="token keyword">in</span> x<span class="token punctuation">:</span>          <span class="token comment"># for i in range(len(x)):          &lt;-- Same as doing this</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>     <span class="token keyword">for</span> xij <span class="token keyword">in</span> xi<span class="token punctuation">:</span>    <span class="token comment">#     for j in range(len(x[i])):   &lt;--</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>         <span class="token keyword">print</span><span class="token punctuation">(</span>xij<span class="token punctuation">)</span>    <span class="token comment">#         print(x[i,j])            &lt;--</span>
+<span class="token number">2</span>
+<span class="token number">4</span>
+<span class="token number">6</span>
+<span class="token number">5</span>
+<span class="token number">3</span>
+<span class="token number">1</span>
+</pre><p>Each time the inner loop starts, variable <em>xij</em> refers to a new object of type <em>numpy.int32</em>, and this object holds a reference to a single raw data value. The diagram below depicts the last iteration of the above loop:</p>
+<center>
+<img src="img/fig-ndarray-iteration-3.png" style="width:338px;height:250px;display:block;padding-bottom:6px;">
+</center>
+<p>Looping over ndarray elements is slow because it involves a lot of object creation. You should only do it if your code still runs &quot;fast enough&quot; (often the case) and .</p>
+<h2 class="mume-header" id="indexing-with-integer-and-boolean-ndarrays">Indexing with integer and boolean ndarrays</h2>
+
+<p>You can <a href="https://www.numpy.org/devdocs/user/quickstart.html#indexing-with-arrays-of-indices">index with an integer ndarray</a>:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> z <span class="token operator">=</span> x<span class="token punctuation">[</span>y<span class="token punctuation">]</span>                <span class="token comment"># Create an ndarray object containing only the elements of &apos;x&apos; indexed by &apos;y&apos;</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> z
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>When using an ndarray as an index, the new ndarray object is <em>not</em> a view into the original data; it is a <em>copy</em>. The code above would result in the memory allocations depicted below:</p>
+<center>
+<img src="img/fig-ndarray-array-indexing-copy.png" style="width:362px;height:296px;display:block;padding-bottom:6px;">
+</center>
+<p>You can also <a href="https://www.numpy.org/devdocs/user/quickstart.html#indexing-with-boolean-arrays">index with a boolean ndarray</a>:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token boolean">True</span><span class="token punctuation">]</span><span class="token punctuation">)</span>   <span class="token comment"># Create a boolean array with &apos;True&apos; in slots 1 and 3</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span>y<span class="token punctuation">]</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>You can think of boolean ndarray indexing as &quot;masking&quot; the original array. However, do not confuse boolean indexing with &quot;<a href="https://www.numpy.org/devdocs/reference/routines.ma.html">masked arrays</a>&quot; &#x2014; do not waste your time learning &quot;masked arrays.&quot;</p>
+<p>Both integer and boolean indexing work on multi-dimensional arrays:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">6.5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>   <span class="token comment"># Create a 4x2 ndarray of float64 values</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>               <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">7.5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>               <span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">8.5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>               <span class="token punctuation">[</span><span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">9.5</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>   <span class="token comment"># Create an ndarray of int32 indices</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span>y<span class="token punctuation">]</span>                   <span class="token comment"># Create an ndarray object containing only the rows of &apos;x&apos; indexed by &apos;y&apos;</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">.</span> <span class="token punctuation">,</span> <span class="token number">7.5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">9</span><span class="token punctuation">.</span> <span class="token punctuation">,</span> <span class="token number">9.5</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token boolean">True</span><span class="token punctuation">]</span><span class="token punctuation">)</span>   <span class="token comment"># Create a boolean array with &apos;True&apos; in slots 1 and 3</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">[</span>y<span class="token punctuation">]</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">.</span> <span class="token punctuation">,</span> <span class="token number">7.5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>                             <span class="token comment"># Same result as for integer indexing</span>
+       <span class="token punctuation">[</span><span class="token number">9</span><span class="token punctuation">.</span> <span class="token punctuation">,</span> <span class="token number">9.5</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+</pre><h2 class="mume-header" id="functions-and-operators">Functions and operators</h2>
+
+<p>Numpy provides too many functions to know all at once. (You can see a complete list <a href="https://www.numpy.org/devdocs/reference/routines.html">here</a>.) You should know about the following functions:</p>
+<ul>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.reshape.html">reshape</a></strong> returns an ndarray with a view into the same data but with a different shape</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.ravel.html">ravel</a></strong> returns an ndarray with a view into the same data but unraveled into a 1-dimensional vector</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.fabs.html">fabs</a></strong> returns an ndarray containing the absolute values of a float ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.sum.html">sum</a></strong> returns the sum over one or more axes within a single ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.mean.html">mean</a></strong> returns the average over one or more axes within a single ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.amin.html">min</a></strong> returns the minimum over one or more axes within a single ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.amax.html">max</a></strong> returns the maximum over one or more axes within a single ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.minimum.html">minimum</a></strong> returns the elementwise minimum of two equally-shaped ndarrays</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.maximum.html">maximum</a></strong> returns the elementwise maximum of two equally-shaped ndarrays</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.transpose.html">transpose</a></strong> returns a transposed view of a single ndarray; see <a href="https://www.numpy.org/devdocs/reference/generated/numpy.ndarray.T.html">ndarray.T</a> for shorthand</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.reshape.html">reshape</a></strong> returns a reshaped view of a single ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.vstack.html">vstack</a></strong> returns an ndarray built by &quot;vertically&quot; stacking a list of ndarrays, like rows of a matrix</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.hstack.html">hstack</a></strong> returns an ndarray built by &quot;horizontally&quot; stacking a list of ndarrays, like columns of a matrix</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.dot.html">dot</a></strong> returns the dot product (inner product) of two ndarrays, typically two vectors</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.any.html">any</a></strong> returns the logical OR over one or more axes within a single ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.all.html">all</a></strong> returns the logical AND over one or more axes within a single ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.logical_or.html">logical_or</a></strong> returns the elementwise logical OR of two equally-shaped boolean ndarrays</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.logical_and.html">logical_and</a></strong> returns the elementwise logical AND of two equally-shaped boolean ndarrays</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.logical_not.html">logical_not</a></strong> returns the logical NOT of a single boolean ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.isfinite.html">isfinite</a></strong> returns a boolean ndarray indicating finite elements of an ndarray (not <em>inf</em>, not <em>nan</em>)</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.isnan.html">isnan</a></strong> returns a boolean ndarray indicating <em>nan</em> (not-a-number) elements of an ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.nonzero.html">nonzero</a></strong> returns an ndarray containing indices of all nonzero values in a single ndarray</li>
+</ul>
+<p>You can do <a href="https://www.numpy.org/devdocs/user/quickstart.html#shape-manipulation">shape manipulation</a>, which is important to understand:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span>      <span class="token comment"># Create a ndarray object of int32 values [0, 1, 2, 3, 4, 5] and shape (6,)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> y<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>   <span class="token comment"># Create an ndarray object with a view into the data for &apos;x&apos; but with shape (2, 3)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>    <span class="token comment"># Create an ndarray object with a view into the data for &apos;x&apos; but with shape (3, 2)</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>You can build new ndarrays by stacking other ndarrays along some dimension:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>vstack<span class="token punctuation">(</span><span class="token punctuation">[</span>x<span class="token punctuation">,</span> x<span class="token punctuation">]</span><span class="token punctuation">)</span>               <span class="token comment"># Create a 4x3 ndarray objec b</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>hstack<span class="token punctuation">(</span><span class="token punctuation">[</span>x<span class="token punctuation">,</span> x<span class="token punctuation">]</span><span class="token punctuation">)</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>Here, the new ndarray data is a <em>copy</em> of the original data.</p>
+<p>Some functions operate along one or more <em>axes</em> of a single ndarray:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>               <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span><span class="token punctuation">)</span>         <span class="token comment"># Take max across enire array (axis 0 and axis 1), going from shape (2,3) to ()</span>
+<span class="token number">7</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span>axis<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span>   <span class="token comment"># Take max across axis 0 only (across row index), going from shape (2,3) to (3,)</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span>axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>   <span class="token comment"># Take max across axis 1 only (across column index), going from shape (2,3) to (2,)</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>Functions like <em>np.max</em> are said to &apos;reduce&apos; the data, because they effectively reduce the number of dimensions. You can ask to preserve the original number of dimensions:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span>axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> keepdims<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>  <span class="token comment"># Take max across axis 1, but get shape (2,1) instead of (2,)</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>You should also know about various element-wise <a href="https://www.numpy.org/devdocs/reference/routines.math.html">math functions</a> such as:</p>
+<ul>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.exp.html">exp</a></strong> returns the element-wise exponential <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>e</mi><mi>x</mi></msup></mrow><annotation encoding="application/x-tex">e^x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.664392em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span></span></span></span></span></span></span> of an ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.log.html">log</a></strong> returns the element-wise natural logarithm <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>ln</mi><mo>&#x2061;</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">\ln x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mop">ln</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">x</span></span></span></span> of an ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.sqrt.html">sqrt</a></strong> returns the element-wise square root <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msqrt><mi>x</mi></msqrt></mrow><annotation encoding="application/x-tex">\sqrt{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.04em;vertical-align:-0.23972em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8002800000000001em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathdefault">x</span></span></span><span style="top:-2.76028em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,
+-10,-9.5,-14c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54c44.2,-33.3,65.8,
+-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10s173,378,173,378c0.7,0,
+35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429c69,-144,104.5,-217.7,106.5,
+-221c5.3,-9.3,12,-14,20,-14H400000v40H845.2724s-225.272,467,-225.272,467
+s-235,486,-235,486c-2.7,4.7,-9,7,-19,7c-6,0,-10,-1,-12,-3s-194,-422,-194,-422
+s-65,47,-65,47z M834 80H400000v40H845z"/></svg></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.23972em;"><span></span></span></span></span></span></span></span></span> of an ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.sign.html">sign</a></strong> returns the element-wise sign <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">{</mo><mo>&#x2212;</mo><mn>1</mn><mo separator="true">,</mo><mn>0</mn><mo separator="true">,</mo><mo>+</mo><mn>1</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\{-1, 0, +1\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">&#x2212;</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">+</span><span class="mord">1</span><span class="mclose">}</span></span></span></span> of an ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.sin.html">sin</a></strong> returns the element-wise sine of an ndarray</li>
+<li><strong>np.<a href="https://www.numpy.org/devdocs/reference/generated/numpy.cos.html">cos</a></strong> returns the element-wise cosine of an ndarray</li>
+</ul>
+<p>Again, always use the Numpy math functions on ndarrays, not the built-in Python math functions.</p>
+<p>You should also know how to use the <strong><a href="https://www.python.org/dev/peps/pep-0465/">@ matrix product</a></strong> operator:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> A <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>   <span class="token comment"># A = [[0 1]    x = [[2]</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>         <span class="token comment">#      [2 0]]        [7]]</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> A @ x     <span class="token comment"># Create a new ndarray that is the matrix product of A and x; same as np.matmul(A, x)</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>You should know enough linear algebra that <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mo fence="true">[</mo><mtable rowspacing="0.15999999999999992em" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>0</mn></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>1</mn></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>2</mn></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>0</mn></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow><mrow><mo fence="true">[</mo><mtable rowspacing="0.15999999999999992em" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>2</mn></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>7</mn></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow><mo>=</mo><mrow><mo fence="true">[</mo><mtable rowspacing="0.15999999999999992em" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>7</mn></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>4</mn></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{bmatrix} 0 &amp; 1 \\ 2 &amp; 0\end{bmatrix}\begin{bmatrix} 2 \\ 7\end{bmatrix} = \begin{bmatrix} 7 \\ 4\end{bmatrix}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.40003em;vertical-align:-0.95003em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">[</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">0</span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.9500000000000004em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">0</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.9500000000000004em;"><span></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">]</span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">[</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">7</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.9500000000000004em;"><span></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">]</span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.40003em;vertical-align:-0.95003em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">[</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">7</span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">4</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.9500000000000004em;"><span></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">]</span></span></span></span></span></span> is obvious to you at a glance.</p>
+<p>You can also transpose a matrix, which is useful for linear algebra:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> A<span class="token punctuation">.</span>T           <span class="token comment"># Create a new ndarray with a transposed view into the same data. Same as np.transpose(A)</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><h2 class="mume-header" id="broadcasting">Broadcasting</h2>
+
+<p>Numpy <a href="https://www.numpy.org/devdocs/user/basics.broadcasting.html">broadcasting</a> is important. You should to understand how it works:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment"># Create an ndarray with shape (1,3)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>eye<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>y<span class="token punctuation">.</span>dtype<span class="token punctuation">)</span>  <span class="token comment"># Create an ndarray with shaoe (3,3)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">+</span> y                 <span class="token comment"># Broadcast y across the rows of x</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">]</span><span class="token punctuation">,</span>      <span class="token comment"># = [[1  0  0]   +   [[10 20 30]]</span>
+       <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">21</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">]</span><span class="token punctuation">,</span>      <span class="token comment">#    [0  1  0]</span>
+       <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">31</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>     <span class="token comment">#    [0  0  1]]       </span>
+       
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">+</span> y<span class="token punctuation">.</span>T               <span class="token comment"># Broadcast y.T across the columns of x</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">,</span>      <span class="token comment"># = [[1  0  0]   +   [[10]</span>
+       <span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">21</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">,</span>      <span class="token comment">#    [0  1  0]        [20]</span>
+       <span class="token punctuation">[</span><span class="token number">30</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token number">31</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>     <span class="token comment">#    [0  0  1]]       [30]]</span>
+</pre><p>For example, you an use this to subtract off the mean of each row of a matrix:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">-</span> x<span class="token punctuation">.</span>mean<span class="token punctuation">(</span>axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> keepdims<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>   <span class="token comment"># Subtract the mean by broadcasting across each row of &apos;x&apos;</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">0.5</span><span class="token punctuation">,</span>  <span class="token number">0.5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>                    <span class="token comment"># = [[0  1]   -   [[0.5]</span>
+       <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">0.5</span><span class="token punctuation">,</span>  <span class="token number">0.5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>                    <span class="token comment">#    [2  3]        [2.5]</span>
+       <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">0.5</span><span class="token punctuation">,</span>  <span class="token number">0.5</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>                   <span class="token comment">#    [4  5]]       [4.5]]</span>
+</pre><h2 class="mume-header" id="random-numbers">Random numbers</h2>
+
+<p>You should know how to use the core <a href="https://www.numpy.org/doc/1.16/reference/routines.random.html">random sampling functions</a>:</p>
+<ul>
+<li><strong>np.random.<a href="https://www.numpy.org/doc/1.16/reference/generated/numpy.random.rand.html">rand</a></strong> returns a sample from the interval <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">[0,1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span> uniformly at random</li>
+<li><strong>np.random.<a href="https://www.numpy.org/doc/1.16/reference/generated/numpy.random.randn.html">randn</a></strong> returns a sample from the standard normal distribution <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="script">N</mi><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{N}(0,1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.14736em;">N</span></span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span></li>
+<li><strong>np.random.<a href="https://www.numpy.org/doc/1.16/reference/generated/numpy.random.shuffle.html">shuffle</a></strong> shuffles the rows of an ndarray in-place</li>
+<li><strong>np.random.<a href="https://www.numpy.org/doc/1.16/reference/generated/numpy.random.permutation.html">permutation</a></strong> returns a permutation sampled uniformly at random</li>
+<li><strong>np.random.<a href="https://www.numpy.org/doc/1.16/reference/generated/numpy.random.seed.html">seed</a></strong> set the global random seed used by the Numpy random number generator</li>
+</ul>
+<p>(The above assumes Numpy v1.16. The <em>random</em> module has been updated with a <a href="https://www.numpy.org/devdocs/reference/random/index.html">new design</a> as of v1.17.)</p>
+<p>You should know how create ndarrays filled with random samples:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>rand<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>     <span class="token comment"># Create an ndarray filled with numbers sampled uniformly at random from [0,1)</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0.08729128</span><span class="token punctuation">,</span> <span class="token number">0.44683704</span><span class="token punctuation">,</span> <span class="token number">0.54826886</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">0.6304936</span> <span class="token punctuation">,</span> <span class="token number">0.78648594</span><span class="token punctuation">,</span> <span class="token number">0.19286801</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>randn<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>    <span class="token comment"># Create an ndarray filled with numbers sampled from the standard normal</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span> <span class="token number">1.80685647</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">0.39730876</span><span class="token punctuation">,</span>  <span class="token number">0.25981327</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span> <span class="token number">0.65315372</span><span class="token punctuation">,</span>  <span class="token number">0.35262794</span><span class="token punctuation">,</span>  <span class="token number">1.56983953</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><p>In machine learning, reproducibility is important. We need to generate the same sequence of random numbers on another computer. So, you should know how to set the random seed:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>seed<span class="token punctuation">(</span><span class="token number">6795</span><span class="token punctuation">)</span>         <span class="token comment"># Set the random seed to a specific integer value</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>rand<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>            <span class="token comment"># Sample some random numbers</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0.26293163</span><span class="token punctuation">,</span> <span class="token number">0.76412668</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>seed<span class="token punctuation">(</span><span class="token number">6795</span><span class="token punctuation">)</span>         <span class="token comment"># Reset the random seed to the same value</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>rand<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>            <span class="token comment"># Now our random numbers are reproducible!</span>
+array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0.26293163</span><span class="token punctuation">,</span> <span class="token number">0.76412668</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</pre><h2 class="mume-header" id="strides-and-memory-layout">Strides and memory layout</h2>
+
+<p>Numpy can support multiple &quot;views&quot; into shared array data because it accesses the data using <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.strides.html">strides</a>. <strong>Understanding strides is optional for this course.</strong> The basic idea is easy to demonstrate by transposing a matrix:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>np<span class="token punctuation">.</span>int8<span class="token punctuation">)</span> <span class="token comment"># Shape (6,) and dtype int8 (1 byte each)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y <span class="token operator">=</span> x<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>  <span class="token comment"># Create a second view into the data, reshaped to (3,2)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> z <span class="token operator">=</span> y<span class="token punctuation">.</span>T              <span class="token comment"># Create a third view into the data, transposed relative to the second view</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">print</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+<span class="token punctuation">[</span><span class="token number">9</span> <span class="token number">8</span> <span class="token number">7</span> <span class="token number">6</span> <span class="token number">5</span> <span class="token number">4</span><span class="token punctuation">]</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">print</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">9</span> <span class="token number">8</span> <span class="token number">7</span><span class="token punctuation">]</span>
+ <span class="token punctuation">[</span><span class="token number">6</span> <span class="token number">5</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">print</span><span class="token punctuation">(</span>z<span class="token punctuation">)</span>
+<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">9</span> <span class="token number">6</span><span class="token punctuation">]</span>
+ <span class="token punctuation">[</span><span class="token number">8</span> <span class="token number">5</span><span class="token punctuation">]</span>
+ <span class="token punctuation">[</span><span class="token number">7</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+</pre><p>Even though <em>y</em> and <em>z</em> refer to the same data, the same index can refer to a different data value:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token number">6</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> z<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token number">8</span>
+</pre><p>Running the above code creates the following object relations in memory:</p>
+<center>
+<img src="img/fig-ndarray-strides.png" style="width:532px;height:337px;display:block;padding-bottom:6px;">
+</center>
+<p>What distinguishes <em>y</em> and <em>z</em> is not just shape, but also <em>strides</em>:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> x<span class="token punctuation">.</span>strides
+<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> y<span class="token punctuation">.</span>strides
+<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> z<span class="token punctuation">.</span>strides
+<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+</pre><p>For a 2-dimensional ndarray with strides <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">(</mo><mi>n</mi><mo separator="true">,</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(n, m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span>, index <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">[</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[i,j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span> always refers to the data in slot <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi>i</mi><mo>+</mo><mi>m</mi><mi>j</mi></mrow><annotation encoding="application/x-tex">ni + mj</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.74285em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span>.</p>
+<p>Given 2-dimensional index <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">[</mo><mn>1</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[1,0]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose">]</span></span></span></span>, for <em>y</em> this refers to slot index <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3</mn><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo><mo>+</mo><mn>1</mn><mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3(1) + 1(0) = 3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">3</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mopen">(</span><span class="mord">0</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span>, whereas for <em>z</em> this refers to slot index <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo><mo>+</mo><mn>3</mn><mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1(1) + 3(0) = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">3</span><span class="mopen">(</span><span class="mord">0</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>.</p>
+<h2 class="mume-header" id="further-reading">Further reading</h2>
+
+<p>If this document doesn&apos;t make things clear for you, here are additional resources on the internet:</p>
+<ul>
+<li><a href="https://www.numpy.org/devdocs/user/quickstart.html">Numpy quickstart guide</a></li>
+<li><a href="https://www.numpy.org/devdocs/user/numpy-for-matlab-users.html">Numpy for MATLAB users</a></li>
+<li><a href="https://jalammar.github.io/visual-numpy/">A visual introduction to Numpy</a></li>
+<li><a href="http://cs231n.github.io/python-numpy-tutorial/">Python + Numpy + Matplotlib tutorial from Stanford&apos;s cs231n course</a></li>
+</ul>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

@@ -1,0 +1,8 @@
+KNN: 71.61% {'n_neighbors': 6}                                          KNN: 72.54%
+SVC: 74.57% {'gamma': 0.028370969347248386, 'C': 5.17684905974751, kernel : 'rbf'}    SVC: 77.07%
+DTC: 69.11%   {'max_depth': 8, min_samples_leaf=5}                                            DTC: 71.14%
+RFC: 78.94%   {'n_estimators': 50, 'max_depth': 20}                       RFC: 78.00%
+ABC: 53.20%   {'n_estimators': 3, 'learning_rate': 1.0813222662312776}    ABC: 53.35%
+ LR: 72.85%   {'C':80.19203531776073 , max_iter = 1000}                                  LR:  72.70%
+GNB: 60.84%    {var_smoothing=1e-06}                                                    GBN:  61.00%
+NNC: 78.00%

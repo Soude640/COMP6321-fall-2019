@@ -12,5 +12,5 @@ Credit to Professor Andrew Delong at Concordia on lab exercises, course syllabus
 
 Credit to book authors of Bishop textbook and supplementary readings.
 
-*(At the end, if there is any violation in the public repo, please contact me and I will delete the file or make it private. I apologize for it in advance.)*
+<i> **(At the end, if there is any violation in the public repo, please contact me and I will delete the file asap or make it private. I apologize for that in advance.)** </i>
 

@@ -8,7 +8,7 @@ Project code under the folder ```Project``` is referenced by another repository 
 
 # Credits and references
 
-Credit to Professor Andrew Delong at Concordia on lab exercises, course syllabus, project guideline, project paper template, midterm practices and solutions.
+Credit to Professor Andrew Delong at Concordia on lab exercises, course syllabus, project guideline, project paper template.
 
 Credit to book authors of Bishop textbook and supplementary readings.
 
